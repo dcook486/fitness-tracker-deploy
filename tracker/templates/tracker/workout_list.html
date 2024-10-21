@@ -1,3 +1,6 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
 <h1>Workouts</h1>
 <a href="{% url 'add_workout' %}">Add New Workout</a>
 <ul>
@@ -5,5 +8,6 @@
         <li>{{ workout }} - Sets: {{ workout.sets }} Reps: {{ workout.reps }} Duration: {{ workout.duration }} minutes</li>
     {% empty %}
         <li>No workouts yet.</li>
-    {% endfor %}
+    {%  endfor %}
+    {% endblock %}
 </ul>
