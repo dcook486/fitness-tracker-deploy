@@ -1,12 +1,15 @@
 {% extends 'tracker/base.html' %}
 
 {% block content %}
-<h2>Login</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+        <button type="submit">Login</button>
+    </form>
 {% endblock %}
 
 <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
