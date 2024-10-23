@@ -52,7 +52,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'fitness_tracker.urls'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'login'
 
 LOGIN_REDIRECT_URL = 'workout_list'
 
@@ -61,7 +61,7 @@ LOGOUT_REDIRECT_URL = '/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / 'fitness_tracker' / 'tracker' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

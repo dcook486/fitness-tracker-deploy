@@ -1,5 +1,7 @@
 {% extends 'tracker/base.html' %}
 
+This is the workout list.
+
 {% block content %}
     <h1>Workouts</h1>
     <a href="{% url 'add_workout' %}">Add New Workout</a>
@@ -14,9 +16,10 @@
 <!-- Logout form -->
     <form action="{% url 'logout' %}" method="post" style="display: inline;">
         {% csrf_token %}
-            <button type="submit">Logout</button>
+        <button type="submit" style="background-color: red; color: white;">Logout</button>
     </form>
 
-<!-- Back button, updating to point to the home page or dashboard -->
-    <a href="{% url 'login' %}">Back to Home</a>
+    <form>
+        <input type="button" value="Go back” onclick="history.back()">
+    </form>
 {% endblock %}

@@ -11,8 +11,8 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def workout_list(request):
-    # Your workout list logic here
-    return render(request, 'tracker/workout_list.html')
+    workouts = Workout.objects.all()
+    return render(request, 'tracker/workout_list.html', {'workouts': workouts})
 
 # View to display all workouts
 def workout_list(request):
