@@ -9,7 +9,6 @@
     <nav>
         <!-- Navigation links -->
         <a href="{% url 'workout_list' %}">Workouts</a>
-
         {% if user.is_authenticated %}
             <form action="{% url 'logout' %}" method="post" style="display: inline;">
                 {% csrf_token %}
