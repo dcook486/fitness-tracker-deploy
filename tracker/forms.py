@@ -11,7 +11,7 @@ class WorkoutForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name']  # Specify the fields you want to allow editing
+        fields = ['username', 'first_name', 'last_name', ]  # Specify the fields you want to allow editing
 
     def __init__(self, *args, **kwargs):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)

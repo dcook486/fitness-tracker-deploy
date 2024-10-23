@@ -10,6 +10,15 @@
         <input type="password" name="password" required>
         <button type="submit" style="background-color: blue; color: white;">Login</button>
     </form>
+
+    <div class ="d-flex justify-content-center links">
+        Forgot password? <a href="{% url 'reset_password' %}"
+        class="ml-2">Reset password</a>
+    </div>
+
+    <div class ="d-flex justify-content-center links">
+        Don't have an account? <a href="{% url 'signup' %}"
+        class="ml-2">Sign Up</a>
+    </div>
 {% endblock %}
 
-<p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
