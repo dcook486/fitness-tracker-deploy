@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import Workout
 from .forms import WorkoutForm
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.shortcuts import render, redirect
+from .models import Workout
+from .forms import WorkoutForm, ProfileUpdateForm  # Import ProfileUpdateForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -40,3 +43,17 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'tracker/signup.html', {'form': form})
+
+# New profile view to update user information
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=request.user)  # Use ProfileUpdateForm instead of UserChangeForm
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Redirect back to the profile page after saving
+    else:
+        form = ProfileUpdateForm(instance=request.user)  # Use ProfileUpdateForm instead of UserChangeForm
+
+    return render(request, 'tracker/profile.html', {'form': form})
+
