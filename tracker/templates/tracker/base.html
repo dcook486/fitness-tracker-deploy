@@ -7,13 +7,18 @@
     <nav>
         <!-- Navigation links -->
         <a href="{% url 'workout_list' %}">Workouts</a>
+
         {% if user.is_authenticated %}
             <form action="{% url 'logout' %}" method="post" style="display: inline;">
                 {% csrf_token %}
                 <button type="submit">Logout</button>
             </form>
+
             <!-- If user is logged in -->
             <p>Welcome, {{ user.username }}!</p>
+
+            <!-- My Profile link -->
+            <a href="{% url 'profile' %}">My Profile</a>
         {% else %}
             <!-- If user is not logged in -->
             <a href="{% url 'login' %}">Login</a>
