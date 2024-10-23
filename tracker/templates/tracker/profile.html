@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+</head>
+<body>
+    <h2>Update Your Profile</h2>
+
+    <!-- Profile update form -->
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Display form fields -->
+        <div>
+            <label for="id_first_name">First Name:</label>
+            {{ form.first_name }}
+        </div>
+
+        <div>
+            <label for="id_last_name">Last Name:</label>
+            {{ form.last_name }}
+        </div>
+
+        <div>
+            <label for="id_username">Username:</label>
+            {{ form.username }}
+        </div>
+
+        <!-- Submit button -->
+        <div>
+            <button type="submit" style="background-color: red; color: white;">Save Changes</button>
+        </div>
+    </form>
+
+    <!-- Optional: Link to return to the workouts or home page -->
+    <p>
+        <a href="{% url 'workout_list' %}">Back to Workouts</a>
+    </p>
+
+</body>
+</html>

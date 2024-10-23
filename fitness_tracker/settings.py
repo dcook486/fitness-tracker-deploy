@@ -52,14 +52,16 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'fitness_tracker.urls'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'login'
+
+LOGIN_REDIRECT_URL = 'workout_list'
 
 LOGOUT_REDIRECT_URL = '/'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / 'fitness_tracker' / 'tracker' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,7 +122,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'tracker' / 'static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

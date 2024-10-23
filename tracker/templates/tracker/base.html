@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Fitness Tracker</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'tracker/style.css' %}">
 </head>
 <body>
     <nav>
@@ -10,10 +12,14 @@
         {% if user.is_authenticated %}
             <form action="{% url 'logout' %}" method="post" style="display: inline;">
                 {% csrf_token %}
-                <button type="submit"><Logout></button>
+                <button type="submit">Logout</button>
             </form>
+
             <!-- If user is logged in -->
             <p>Welcome, {{ user.username }}!</p>
+
+            <!-- My Profile link -->
+            <a href="{% url 'profile' %}">My Profile</a>
         {% else %}
             <!-- If user is not logged in -->
             <a href="{% url 'login' %}">Login</a>
