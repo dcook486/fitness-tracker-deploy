@@ -54,6 +54,8 @@ ROOT_URLCONF = 'fitness_tracker.urls'
 
 LOGIN_REDIRECT_URL = '/'
 
+LOGIN_REDIRECT_URL = 'workout_list'
+
 LOGOUT_REDIRECT_URL = '/'
 
 TEMPLATES = [
