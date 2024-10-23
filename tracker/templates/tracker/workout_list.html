@@ -11,8 +11,12 @@
     {%  endfor %}
 </ul>
 
+<!-- Logout form -->
 <form action="{% url 'logout' %}" method="post" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+
+<!-- Back button, updating to point to the home page or dashboard -->
+<a href="{% url 'home' %}">Back to Home</a>
 {% endblock %}
