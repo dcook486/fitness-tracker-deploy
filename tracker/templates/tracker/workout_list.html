@@ -1,22 +1,22 @@
 {% extends 'tracker/base.html' %}
 
 {% block content %}
-<h1>Workouts</h1>
-<a href="{% url 'add_workout' %}">Add New Workout</a>
-<ul>
-    {% for workout in workouts %}
-        <li>{{ workout }} - Sets: {{ workout.sets }} Reps: {{ workout.reps }} Duration: {{ workout.duration }} minutes</li>
-    {% empty %}
-        <li>No workouts yet.</li>
-    {%  endfor %}
-</ul>
+    <h1>Workouts</h1>
+    <a href="{% url 'add_workout' %}">Add New Workout</a>
+    <ul>
+        {% for workout in workouts %}
+            <li>{{ workout }} - Sets: {{ workout.sets }} Reps: {{ workout.reps }} Duration: {{ workout.duration }} minutes</li>
+        {% empty %}
+            <li>No workouts yet.</li>
+        {%  endfor %}
+    </ul>
 
 <!-- Logout form -->
-<form action="{% url 'logout' %}" method="post" style="display: inline;">
-    {% csrf_token %}
-    <button type="submit">Logout</button>
-</form>
+    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+        {% csrf_token %}
+            <button type="submit">Logout</button>
+    </form>
 
 <!-- Back button, updating to point to the home page or dashboard -->
-<a href="{% url 'home' %}">Back to Home</a>
+    <a href="{% url 'login' %}">Back to Home</a>
 {% endblock %}
