@@ -8,7 +8,6 @@ from .forms import WorkoutForm, ProfileUpdateForm  # Import ProfileUpdateForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
-
 @login_required
 def workout_list(request):
     workouts = Workout.objects.all()
