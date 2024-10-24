@@ -16,7 +16,7 @@
             </form>
 
             <!-- If user is logged in -->
-            <p>Welcome, {{ user.username }}!</p>
+            <p>Welcome, {{ user.first_name|default:user.username }}!</p>
 
             <!-- My Profile link -->
             <a href="{% url 'profile' %}">My Profile</a>
