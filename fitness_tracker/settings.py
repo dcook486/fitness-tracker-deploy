@@ -139,3 +139,11 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 SERVER_EMAIL = 'root@gmail.com'
 #    'root@gmail.com'
+
+import os
+MEDIA_URL = 'media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
