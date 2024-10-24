@@ -28,4 +28,4 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('workouts/', views.workout_list, name='workout_list'),
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
