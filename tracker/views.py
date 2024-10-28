@@ -52,4 +52,3 @@ def profile(request):
         form = ProfileUpdateForm(instance=request.user)  # Use ProfileUpdateForm instead of UserChangeForm
 
     return render(request, 'tracker/profile.html', {'form': form})
-
