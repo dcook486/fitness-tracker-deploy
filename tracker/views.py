@@ -14,7 +14,13 @@ def workout_list(request):
     return render(request, 'tracker/workout_list.html', {'workouts': workouts})
 
 # View to add a new workout
+@login_required
 def add_workout(request):
+
+    # Number of visits to this view, as counted in the session variable.
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+
     if request.method == 'POST':
         form = WorkoutForm(request.POST)
         if form.is_valid():
@@ -23,10 +29,6 @@ def add_workout(request):
     else:
         form = WorkoutForm()
     return render(request, 'tracker/add_workout.html', {'form': form})
-
-    # Number of visits to this view, as counted in the session variable.
-    num_visits = request.session.get('num_visits', 0)
-    request.session['num_visits'] = num_visits + 1
 
 def signup(request):
     if request.method == 'POST':
