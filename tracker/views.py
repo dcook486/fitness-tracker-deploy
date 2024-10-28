@@ -1,20 +1,15 @@
 from django.shortcuts import render, redirect
 from .models import Workout
-from .forms import WorkoutForm
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.shortcuts import render, redirect
-from .models import Workout
 from .forms import WorkoutForm, ProfileUpdateForm, CustomUserCreationForm  # Import ProfileUpdateForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
 @login_required
 def workout_list(request):
-    workouts = Workout.objects.all()
-    return render(request, 'tracker/workout_list.html', {'workouts': workouts})
-
-# View to display all workouts
-def workout_list(request):
+    """
+     View to display all workouts, ordered by date descending.
+     Requires user to be logged in.
+     """
     workouts = Workout.objects.all().order_by('-date')
     return render(request, 'tracker/workout_list.html', {'workouts': workouts})
 
