@@ -10,11 +10,6 @@
             <li>No workouts yet.</li>
         {%  endfor %}
     </ul>
-
-<!-- Logout form -->
-    <form action="{% url 'logout' %}" method="post" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit" style="background-color: red; color: white;">Logout</button>
     </form>
 
 {% endblock %}
