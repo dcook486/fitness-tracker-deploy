@@ -6,9 +6,9 @@ from .models import Exercise, Category
 
 
 class ExerciseSelectionForm(forms.Form):
-    exercise = forms.ModelChoiceField(queryset=Exercise.objects.all(), empty_label="Select an Exercise")
+    #exercise = forms.ModelChoiceField(queryset=Exercise.objects.all(), empty_label="Select an Exercise")
     category = forms.ModelChoiceField(queryset=Category.objects.all(), required=True, label="Select Category")
-    #exercise = forms.ModelChoiceField(queryset=Exercise.objects.none(), required=True, label="Select Exercise")
+    exercise = forms.ModelChoiceField(queryset=Exercise.objects.none(), required=True, label="Select Exercise")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -20,6 +20,7 @@ class ExerciseSelectionForm(forms.Form):
                 pass
         else:
             self.fields['exercise'].queryset = Exercise.objects.none()
+
 
 class WorkoutForm(forms.ModelForm):
     class Meta:

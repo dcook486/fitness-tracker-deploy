@@ -14,8 +14,9 @@
     <h2>Select an Exercise</h2>
     <form method="post" action="{% url 'select_exercise' %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
+        {{ form.category }}
+        {{ form.exercise }}
+        <button type="submit" style="background-color: greenyellow; color: black;">Submit</button>
     </form>
 
 {% endblock %}

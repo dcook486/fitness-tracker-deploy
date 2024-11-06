@@ -33,3 +33,20 @@
     </div>
 </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#id_category").change(function() {
+            const categoryId = $(this).val();
+            $.ajax({
+                url: "{% url 'load_exercises' %}",  // We'll create this URL
+                data: {
+                    'category_id': categoryId
+                },
+                success: function(data) {
+                    $("#id_exercise").html(data);  // Populate the exercise dropdown
+                }
+            });
+        });
+    });
+</script>

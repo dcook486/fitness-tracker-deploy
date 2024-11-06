@@ -25,4 +25,5 @@ urlpatterns = [
          auth_views.PasswordResetCompleteView.as_view(template_name="tracker/password_reset_done.html"),
          name='reset_reset_complete'),
     path('select_exercise/', views.select_exercise, name='select_exercise'),
+    path('ajax/load-exercises/', views.load_exercises, name='load_exercises'),
 ]

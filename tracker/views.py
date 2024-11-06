@@ -4,7 +4,9 @@ from .forms import WorkoutForm, ProfileUpdateForm, CustomUserCreationForm  # Imp
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import ExerciseSelectionForm
-
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from .models import Exercise
 
 @login_required
 def workout_list(request):
@@ -59,17 +61,19 @@ def profile(request):
 
 def select_exercise(request):
     form = ExerciseSelectionForm(request.POST or None)
-    if request.method == "POST" and form.is_valid():
-        # Process the selected exercise (e.g., add to user's workout)
+    if form.is_valid():
         selected_exercise = form.cleaned_data['exercise']
-        # Add code here to save the selected exercise to the user's profile/workout
+        # Do something with the selected exercise
+
     return render(request, 'tracker/select_exercise.html', {'form': form})
 def workout_list(request):
+    #workouts = Workout.objects.all()
+    form = ExerciseSelectionForm()
     workouts = Workout.objects.all()
-    form = ExerciseSelectionForm(request.POST or None)
-    if form.is_valid():
-        # Process the selected exercise
-        selected_exercise = form.cleaned_data['exercise']
-        # Handle the selected exercise if necessary
 
     return render(request, 'tracker/workout_list.html', {'workouts': workouts, 'form': form})
+def load_exercises(request):
+    category_id = request.GET.get('category_id')
+    exercises = Exercise.objects.filter(category_id=category_id).order_by('name')  # Adjust as per your model fields
+    html = render_to_string('tracker/exercise_dropdown_list_options.html', {'exercises': exercises})
+    return JsonResponse({'data': html})

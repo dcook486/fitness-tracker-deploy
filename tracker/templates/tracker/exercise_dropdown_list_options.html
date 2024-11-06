@@ -1,0 +1,4 @@
+<option value="">Select Exercise</option>
+{% for exercise in exercises %}
+    <option value="{{ exercise.id }}">{{ exercise.name }}</option>
+{% endfor %}
