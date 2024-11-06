@@ -2,7 +2,23 @@ from django import forms
 from .models import Workout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import Exercise, Category
 
+
+class ExerciseSelectionForm(forms.Form):
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), required=True, label="Select Category")
+    exercise = forms.ModelChoiceField(queryset=Exercise.objects.none(), required=True, label="Select Exercise")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'category' in self.data:
+            try:
+                category_id = int(self.data.get('category'))
+                self.fields['exercise'].queryset = Exercise.objects.filter(category_id=category_id)
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty queryset
+        else:
+            self.fields['exercise'].queryset = Exercise.objects.none()
 
 class WorkoutForm(forms.ModelForm):
     class Meta:
@@ -37,3 +53,4 @@ class ProfileUpdateForm(forms.ModelForm):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
         # You can customize fields here if necessary
         self.fields['username'].required = True  # Ensure the username is required
+

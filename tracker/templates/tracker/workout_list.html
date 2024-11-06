@@ -5,11 +5,17 @@
     <a href="{% url 'add_workout' %}">Add New Workout</a>
     <ul>
         {% for workout in workouts %}
-            <li>{{ workout }} - Sets: {{ workout.sets }} Reps: {{ workout.reps }} Duration: {{ workout.duration }} minutes</li>
+            <li>{{ workout }} - Sets: {{ workout.sets }} Reps: {{ workout.reps }} Minutes in Duration: {{ workout.duration }} minutes</li>
         {% empty %}
             <li>No workouts yet.</li>
         {%  endfor %}
     </ul>
+
+    <h2>Select an Exercise</h2>
+    <form method="post" action="{% url 'select_exercise' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
     </form>
 
 {% endblock %}

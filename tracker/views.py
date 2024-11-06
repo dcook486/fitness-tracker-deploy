@@ -3,6 +3,8 @@ from .models import Workout
 from .forms import WorkoutForm, ProfileUpdateForm, CustomUserCreationForm  # Import ProfileUpdateForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from .forms import ExerciseSelectionForm
+
 
 @login_required
 def workout_list(request):
@@ -52,3 +54,22 @@ def profile(request):
         form = ProfileUpdateForm(instance=request.user)  # Use ProfileUpdateForm instead of UserChangeForm
 
     return render(request, 'tracker/profile.html', {'form': form})
+
+
+
+def select_exercise(request):
+    form = ExerciseSelectionForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        # Process the selected exercise (e.g., add to user's workout)
+        selected_exercise = form.cleaned_data['exercise']
+        # Add code here to save the selected exercise to the user's profile/workout
+    return render(request, 'tracker/select_exercise.html', {'form': form})
+def workout_list(request):
+    workouts = Workout.objects.all()
+    form = ExerciseSelectionForm(request.POST or None)
+    if form.is_valid():
+        # Process the selected exercise
+        selected_exercise = form.cleaned_data['exercise']
+        # Handle the selected exercise if necessary
+
+    return render(request, 'tracker/workout_list.html', {'workouts': workouts, 'form': form})
