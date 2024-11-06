@@ -6,8 +6,9 @@ from .models import Exercise, Category
 
 
 class ExerciseSelectionForm(forms.Form):
+    exercise = forms.ModelChoiceField(queryset=Exercise.objects.all(), empty_label="Select an Exercise")
     category = forms.ModelChoiceField(queryset=Category.objects.all(), required=True, label="Select Category")
-    exercise = forms.ModelChoiceField(queryset=Exercise.objects.none(), required=True, label="Select Exercise")
+    #exercise = forms.ModelChoiceField(queryset=Exercise.objects.none(), required=True, label="Select Exercise")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -16,7 +17,7 @@ class ExerciseSelectionForm(forms.Form):
                 category_id = int(self.data.get('category'))
                 self.fields['exercise'].queryset = Exercise.objects.filter(category_id=category_id)
             except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty queryset
+                pass
         else:
             self.fields['exercise'].queryset = Exercise.objects.none()
 
