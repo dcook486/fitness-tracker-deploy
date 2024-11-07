@@ -6,12 +6,11 @@
     <!-- Exercise Selection Form -->
     <form method="post" action="{% url 'workout_list' %}">
         {% csrf_token %}
-        <div>
-            {{ form.category.label_tag }} {{ form.category }}
-        </div>
-        <div>
-            {{ form.exercise.label_tag }} {{ form.exercise }}
-        </div>
+         <label for="id_category">{{ form.category.label }}</label>
+    {{ form.category }}
+
+    <label for="id_exercise">{{ form.exercise.label }}</label>
+    {{ form.exercise }}
 
         <button type="submit" style="background-color: greenyellow; color: black;">Select Exercise</button>
     </form>
@@ -31,27 +30,38 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-        $('#id_category').change(function() {
-            console.log("Category dropdown changed.");
-            var categoryId = $(this).val();
+    $('#id_category').change(function() {
+        var categoryId = $(this).val();
+        console.log("Category ID selected: " + categoryId);
 
-            var data = [
-            { "id": 1, "name": "Push-up" },
-            { "id": 4, "name": "Bicep Curl" }
-        ];
+        if (categoryId) {
+            $.ajax({
+                url: "{% url 'load_exercises' %}",
+                data: {
+                    'category_id': categoryId
+                },
+                success: function(data) {
+                    console.log("Data received:", data);
+                    var exerciseSelect = $('#id_exercise');
+                    exerciseSelect.empty();  // Clear previous options
+                    exerciseSelect.append('<option value="">Select an exercise</option>');  // Placeholder option
 
-        var exerciseSelect = $('#id_exercise');
-        exerciseSelect.empty();
-        exerciseSelect.append('<option value="">Select an exercise</option>');
-
-        // Check if data has exercises
-        if (data.length > 0) {
-            $.each(data, function(index, exercise) {
-                console.log("Adding exercise:", exercise.name);  // Add console log here
-                exerciseSelect.append('<option value="' + exercise.id + '">' + exercise.name + '</option>');
+                    // Check if we received valid data
+                    if (data && Array.isArray(data) && data.length) {
+                        $.each(data, function(index, exercise) {
+                            console.log("Appending exercise: ", exercise);
+                            exerciseSelect.append('<option value="' + exercise.id + '">' + exercise.name + '</option>');
+                        });
+                    } else {
+                        exerciseSelect.append('<option value="">No exercises available</option>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching exercises:", error);
+                }
             });
         } else {
-            console.log("No exercises found for this category.");
+            $('#id_exercise').empty();  // Clear options when no category is selected
         }
     });
 });

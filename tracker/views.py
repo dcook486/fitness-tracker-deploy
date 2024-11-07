@@ -84,5 +84,5 @@ def workout_list(request):
 def load_exercises(request):
     category_id = request.GET.get('category_id')
     exercises = Exercise.objects.filter(category_id=category_id)
-    exercise_data = [{"id": exercise.id, "name": exercise.name} for exercise in exercises]
-    return JsonResponse(exercise_data, safe=False)
+    exercise_list = [{"id": exercise.id, "name": exercise.name} for exercise in exercises]
+    return JsonResponse(exercise_list, safe=False)
