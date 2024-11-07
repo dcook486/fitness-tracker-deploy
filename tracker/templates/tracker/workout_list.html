@@ -2,21 +2,58 @@
 
 {% block content %}
     <h1>Workouts</h1>
+
+    <!-- Exercise Selection Form -->
+    <form method="post" action="{% url 'workout_list' %}">
+        {% csrf_token %}
+        <div>
+            {{ form.category.label_tag }} {{ form.category }}
+        </div>
+        <div>
+            {{ form.exercise.label_tag }} {{ form.exercise }}
+        </div>
+
+        <button type="submit" style="background-color: greenyellow; color: black;">Select Exercise</button>
+    </form>
+
+    <hr>
+
     <a href="{% url 'add_workout' %}">Add New Workout</a>
     <ul>
         {% for workout in workouts %}
-            <li>{{ workout }} - Sets: {{ workout.sets }} Reps: {{ workout.reps }} Minutes in Duration: {{ workout.duration }} minutes</li>
+            <li>{{ workout }} - Sets: {{ workout.sets }} Reps: {{ workout.reps }} Duration: {{ workout.duration }} minutes</li>
         {% empty %}
             <li>No workouts yet.</li>
-        {%  endfor %}
+        {% endfor %}
     </ul>
 
-    <h2>Select an Exercise</h2>
-    <form method="post" action="{% url 'select_exercise' %}">
-        {% csrf_token %}
-        {{ form.category }}
-        {{ form.exercise }}
-        <button type="submit" style="background-color: greenyellow; color: black;">Submit</button>
-    </form>
+    <!-- JavaScript to handle category selection and update exercises -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#id_category').change(function() {
+            console.log("Category dropdown changed.");
+            var categoryId = $(this).val();
 
+            var data = [
+            { "id": 1, "name": "Push-up" },
+            { "id": 4, "name": "Bicep Curl" }
+        ];
+
+        var exerciseSelect = $('#id_exercise');
+        exerciseSelect.empty();
+        exerciseSelect.append('<option value="">Select an exercise</option>');
+
+        // Check if data has exercises
+        if (data.length > 0) {
+            $.each(data, function(index, exercise) {
+                console.log("Adding exercise:", exercise.name);  // Add console log here
+                exerciseSelect.append('<option value="' + exercise.id + '">' + exercise.name + '</option>');
+            });
+        } else {
+            console.log("No exercises found for this category.");
+        }
+    });
+});
+</script>
 {% endblock %}

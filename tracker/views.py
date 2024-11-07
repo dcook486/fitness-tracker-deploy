@@ -7,6 +7,7 @@ from .forms import ExerciseSelectionForm
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from .models import Exercise
+from django.shortcuts import render
 
 @login_required
 def workout_list(request):
@@ -61,19 +62,27 @@ def profile(request):
 
 def select_exercise(request):
     form = ExerciseSelectionForm(request.POST or None)
-    if form.is_valid():
-        selected_exercise = form.cleaned_data['exercise']
-        # Do something with the selected exercise
+    if request.method == 'POST':
+        form = ExerciseSelectionForm(request.POST)
+        if form.is_valid():
 
-    return render(request, 'tracker/select_exercise.html', {'form': form})
+            selected_exercise = form.cleaned_data['exercise']
+
+    return render(request, 'tracker/workout_list.html', {'form': form})
+
 def workout_list(request):
     #workouts = Workout.objects.all()
-    form = ExerciseSelectionForm()
+    form = ExerciseSelectionForm(request.POST or None)
     workouts = Workout.objects.all()
 
+    if request.method == 'POST' and form.is_valid():
+
+        pass
+
     return render(request, 'tracker/workout_list.html', {'workouts': workouts, 'form': form})
+
 def load_exercises(request):
     category_id = request.GET.get('category_id')
-    exercises = Exercise.objects.filter(category_id=category_id).order_by('name')  # Adjust as per your model fields
-    html = render_to_string('tracker/exercise_dropdown_list_options.html', {'exercises': exercises})
-    return JsonResponse({'data': html})
+    exercises = Exercise.objects.filter(category_id=category_id)
+    exercise_data = [{"id": exercise.id, "name": exercise.name} for exercise in exercises]
+    return JsonResponse(exercise_data, safe=False)

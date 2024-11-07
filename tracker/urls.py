@@ -26,4 +26,6 @@ urlpatterns = [
          name='reset_reset_complete'),
     path('select_exercise/', views.select_exercise, name='select_exercise'),
     path('ajax/load-exercises/', views.load_exercises, name='load_exercises'),
+
+    path('load-exercises/', views.load_exercises, name='load_exercises'),
 ]

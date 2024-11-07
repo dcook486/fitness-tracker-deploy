@@ -38,7 +38,7 @@ htmlcov/
 
 # Media and static files (customize as needed)
 media/
-static/
+fitness_tracker/static/
 
 # Secret key
 *.secret

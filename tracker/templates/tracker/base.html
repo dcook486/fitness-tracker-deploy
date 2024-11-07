@@ -14,14 +14,9 @@
                 {% csrf_token %}
                 <button type="submit" style="background-color: red; color: white;">Logout</button>
             </form>
-
-            <!-- If user is logged in -->
             <p>Welcome, {{ user.first_name|default:user.username }}!</p>
-
-            <!-- My Profile link -->
             <a href="{% url 'profile' %}">My Profile</a>
         {% else %}
-            <!-- If user is not logged in -->
             <a href="{% url 'login' %}">Login</a>
             <a href="{% url 'signup' %}">Sign Up</a>
         {% endif %}
@@ -31,22 +26,26 @@
         {% block content %}
         {% endblock %}
     </div>
-</body>
-</html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#id_category").change(function() {
-            const categoryId = $(this).val();
-            $.ajax({
-                url: "{% url 'load_exercises' %}",  // We'll create this URL
-                data: {
-                    'category_id': categoryId
-                },
-                success: function(data) {
-                    $("#id_exercise").html(data);  // Populate the exercise dropdown
-                }
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- AJAX script for dropdowns -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#id_category").change(function() {
+                const categoryId = $(this).val();
+                $.ajax({
+                    url: "{% url 'load_exercises' %}",
+                    data: {
+                        'category_id': categoryId
+                    },
+                    success: function(data) {
+                        $("#id_exercise").html(data);  // Populate the exercise dropdown
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
+</body>
+</html>
