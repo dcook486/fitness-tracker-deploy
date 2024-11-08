@@ -2,13 +2,16 @@ from django import forms
 from .models import Workout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Exercise, Category
+from .models import Category, Exercise
 
 
-class ExerciseSelectionForm(forms.Form):
-    #exercise = forms.ModelChoiceField(queryset=Exercise.objects.all(), empty_label="Select an Exercise")
+class CombinedWorkoutForm(forms.ModelForm):
     category = forms.ModelChoiceField(queryset=Category.objects.all(), required=True, label="Select Category")
     exercise = forms.ModelChoiceField(queryset=Exercise.objects.none(), required=True, label="Select Exercise")
+
+    class Meta:
+        model = Workout
+        fields = ['category', 'exercise', 'workout_type', 'duration', 'sets', 'reps']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -19,13 +22,8 @@ class ExerciseSelectionForm(forms.Form):
             except (ValueError, TypeError):
                 pass
         else:
-            self.fields['exercise'].queryset = Exercise.objects.none()
+            self.fields['exercise'].queryset = Exercise.objects.all()
 
-
-class WorkoutForm(forms.ModelForm):
-    class Meta:
-        model = Workout
-        fields = ['workout_type', 'duration', 'sets', 'reps']
 
 class CustomUserCreationForm(UserCreationForm):  # Add this new form
     email = forms.EmailField(required=True)

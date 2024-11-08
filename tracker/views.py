@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Workout
-from .forms import WorkoutForm, ProfileUpdateForm, CustomUserCreationForm  # Import ProfileUpdateForm
-from django.contrib.auth.forms import UserCreationForm
+from .forms import CombinedWorkoutForm, ProfileUpdateForm, CustomUserCreationForm  # Import ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
-from .forms import ExerciseSelectionForm
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from .models import Exercise
@@ -27,12 +25,12 @@ def add_workout(request):
     request.session['num_visits'] = num_visits + 1
 
     if request.method == 'POST':
-        form = WorkoutForm(request.POST)
+        form = CombinedWorkoutForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('workout_list')
     else:
-        form = WorkoutForm()
+        form = CombinedWorkoutForm()
     return render(request, 'tracker/add_workout.html', {'form': form})
 
 def signup(request):
@@ -61,9 +59,9 @@ def profile(request):
 
 
 def select_exercise(request):
-    form = ExerciseSelectionForm(request.POST or None)
+    form = (request.POST or None)
     if request.method == 'POST':
-        form = ExerciseSelectionForm(request.POST)
+        form = (request.POST)
         if form.is_valid():
 
             selected_exercise = form.cleaned_data['exercise']
@@ -71,9 +69,8 @@ def select_exercise(request):
     return render(request, 'tracker/workout_list.html', {'form': form})
 
 def workout_list(request):
-    #workouts = Workout.objects.all()
-    form = ExerciseSelectionForm(request.POST or None)
     workouts = Workout.objects.all()
+    form = CombinedWorkoutForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
 

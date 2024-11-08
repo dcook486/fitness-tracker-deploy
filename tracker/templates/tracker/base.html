@@ -37,11 +37,9 @@
                 const categoryId = $(this).val();
                 $.ajax({
                     url: "{% url 'load_exercises' %}",
-                    data: {
-                        'category_id': categoryId
-                    },
+                    data: {'category_id': categoryId},
                     success: function(data) {
-                        $("#id_exercise").html(data);  // Populate the exercise dropdown
+                     $("#id_exercise").html(data);  // Populate the exercise dropdown
                     }
                 });
             });

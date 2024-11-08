@@ -3,21 +3,29 @@
 {% block content %}
     <h1>Workouts</h1>
 
-    <!-- Exercise Selection Form -->
-    <form method="post" action="{% url 'workout_list' %}">
+    <form method="post" action="{% url 'add_workout' %}">
         {% csrf_token %}
-         <label for="id_category">{{ form.category.label }}</label>
-    {{ form.category }}
+        <label for="id_category">{{ form.category.label }}</label>
+        {{ form.category }}
 
-    <label for="id_exercise">{{ form.exercise.label }}</label>
-    {{ form.exercise }}
+        <label for="id_workout_type">{{ form.workout_type.label }}</label>
+        {{ form.workout_type }}
+        <div>
+        <label for="id_duration">{{ form.duration.label }}</label>
+        {{ form.duration }}
 
-        <button type="submit" style="background-color: greenyellow; color: black;">Select Exercise</button>
+        <label for="id_sets">{{ form.sets.label }}</label>
+        {{ form.sets }}
+
+        <label for="id_reps">{{ form.reps.label }}</label>
+        {{ form.reps }}
+
+        <button type="submit" style="background-color: greenyellow; color: black;">Add Workout</button>
+        </div>
     </form>
 
     <hr>
 
-    <a href="{% url 'add_workout' %}">Add New Workout</a>
     <ul>
         {% for workout in workouts %}
             <li>{{ workout }} - Sets: {{ workout.sets }} Reps: {{ workout.reps }} Duration: {{ workout.duration }} minutes</li>
@@ -26,44 +34,35 @@
         {% endfor %}
     </ul>
 
-    <!-- JavaScript to handle category selection and update exercises -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-    $('#id_category').change(function() {
-        var categoryId = $(this).val();
-        console.log("Category ID selected: " + categoryId);
-
-        if (categoryId) {
+        $('#id_category').change(function() {
+            const categoryId = $(this).val();
             $.ajax({
                 url: "{% url 'load_exercises' %}",
                 data: {
                     'category_id': categoryId
                 },
                 success: function(data) {
-                    console.log("Data received:", data);
-                    var exerciseSelect = $('#id_exercise');
-                    exerciseSelect.empty();  // Clear previous options
-                    exerciseSelect.append('<option value="">Select an exercise</option>');  // Placeholder option
+                    const exerciseSelect = $('#id_exercise');
+                    exerciseSelect.empty(); // Clear previous options
+                    exerciseSelect.append('<option value="">Select an exercise</option>');
 
-                    // Check if we received valid data
-                    if (data && Array.isArray(data) && data.length) {
+                    // Check if data is received and populate options
+                    if (data.length > 0) {
                         $.each(data, function(index, exercise) {
-                            console.log("Appending exercise: ", exercise);
                             exerciseSelect.append('<option value="' + exercise.id + '">' + exercise.name + '</option>');
                         });
                     } else {
                         exerciseSelect.append('<option value="">No exercises available</option>');
                     }
                 },
-                error: function(xhr, status, error) {
-                    console.error("Error fetching exercises:", error);
+                error: function() {
+                    console.error("Error loading exercises.");
                 }
             });
-        } else {
-            $('#id_exercise').empty();  // Clear options when no category is selected
-        }
+        });
     });
-});
 </script>
 {% endblock %}
