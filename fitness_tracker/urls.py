@@ -21,17 +21,12 @@ from django.conf import settings
 from django.contrib.auth import views as auth_views
 from tracker import views
 
-from django.conf.urls.static import static
-
-
-from django.template.context_processors import static
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root':
-    settings.MEDIA_ROOT}), #serve media files when deployed
+    settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root':
-    settings.STATIC_ROOT}), #serve static files when deployed
+    settings.STATIC_ROOT}), 
     path('', include('tracker.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='tracker/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
