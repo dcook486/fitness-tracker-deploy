@@ -78,7 +78,7 @@ def load_exercises(request):
     exercise_list = [{"id": exercise.id, "name": exercise.name} for exercise in exercises]
     return JsonResponse(exercise_list, safe=False)
 
-
+#Show exercise history
 @login_required
 def exercise_history(request):
     # Get filter parameters from request
