@@ -12,6 +12,13 @@ class CombinedWorkoutForm(forms.ModelForm):
     class Meta:
         model = Workout
         fields = ['category', 'exercise', 'workout_type', 'duration', 'sets', 'reps']
+        widgets = {
+            'exercise': forms.Select(attrs={'class': 'form-control'}),
+            'workout_type': forms.Select(attrs={'class': 'form-control'}),
+            'duration': forms.NumberInput(attrs={'class': 'form-control'}),
+            'sets': forms.NumberInput(attrs={'class': 'form-control'}),
+            'reps': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

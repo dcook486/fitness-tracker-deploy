@@ -1,5 +1,6 @@
+# models.py
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -23,11 +24,18 @@ class Workout(models.Model):
         ('weight_lifting', 'Weight Lifting'),
     ]
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     workout_type = models.CharField(max_length=20, choices=WORKOUT_TYPES)
-    duration = models.IntegerField(null=True, blank=True)  # for cardio workouts
-    sets = models.IntegerField(null=True, blank=True)  # for strength workouts
-    reps = models.IntegerField(null=True, blank=True)  # for strength workouts
+    duration = models.IntegerField(null=True, blank=True)
+    sets = models.IntegerField(null=True, blank=True)
+    reps = models.IntegerField(null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-date']
+
     def __str__(self):
-        return f"{self.get_workout_type_display()} on {self.date.strftime('%Y-%m-%d')}"
+        return f"{self.exercise.name} - {self.get_workout_type_display()} on {self.date.strftime('%Y-%m-%d')}"
+
+
