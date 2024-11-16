@@ -85,3 +85,6 @@ def exercise_history(request):
     }
 
     return render(request, 'tracker/exercise_history.html', context)
+
+def home(request):
+    return render(request, 'tracker/home.html')
