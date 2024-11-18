@@ -24,6 +24,10 @@ def add_workout(request):
     num_visits = request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits + 1
 
+    # Initialize the forms
+    standard_form = CombinedWorkoutForm()
+    custom_form = CustomWorkoutForm()
+
     if request.method == 'POST':
         # Check if adding a standard workout
         if 'standard_workout' in request.POST:
@@ -37,9 +41,6 @@ def add_workout(request):
             if custom_form.is_valid():
                 custom_form.save()
                 return redirect('workout_list')
-    else:
-        standard_form = CombinedWorkoutForm()
-        custom_form = CustomWorkoutForm()
 
     return render(request, 'tracker/add_workout.html', {
         'standard_form': standard_form,
