@@ -9,9 +9,41 @@ class CombinedWorkoutForm(forms.ModelForm):
     category = forms.ModelChoiceField(queryset=Category.objects.all(), required=True, label="Select Category")
     exercise = forms.ModelChoiceField(queryset=Exercise.objects.none(), required=True, label="Select Exercise")
 
+    DIFFICULTY_CHOICES = [
+        ('easy', 'Easy'),
+        ('medium', 'Medium'),
+        ('hard', 'Hard'),
+    ]
+    difficulty = forms.ChoiceField(choices=DIFFICULTY_CHOICES, required=True, label="Difficulty")
+
     class Meta:
         model = Workout
-        fields = ['category', 'exercise', 'workout_type', 'duration', 'sets', 'reps']
+        fields = ['category', 'exercise', 'workout_type', 'difficulty']
+        widgets = {
+            'exercise': forms.Select(attrs={'class': 'form-control'}),
+            'workout_type': forms.Select(attrs={'class': 'form-control'}),
+            'difficulty': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'category' in self.data:
+            try:
+                category_id = int(self.data.get('category'))
+                self.fields['exercise'].queryset = Exercise.objects.filter(category_id=category_id)
+            except (ValueError, TypeError):
+                pass
+        else:
+            self.fields['exercise'].queryset = Exercise.objects.all()
+
+
+class CustomWorkoutForm(forms.ModelForm):
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), required=True, label="Select Category")
+    exercise = forms.ModelChoiceField(queryset=Exercise.objects.none(), required=True, label="Select Exercise")
+
+    class Meta:
+        model = Workout
+        fields = ['category', 'exercise', 'workout_type', 'duration', 'sets', 'reps', 'workout_date']
         widgets = {
             'exercise': forms.Select(attrs={'class': 'form-control'}),
             'workout_type': forms.Select(attrs={'class': 'form-control'}),
@@ -32,7 +64,7 @@ class CombinedWorkoutForm(forms.ModelForm):
             self.fields['exercise'].queryset = Exercise.objects.all()
 
 
-class CustomUserCreationForm(UserCreationForm):  # Add this new form
+class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
@@ -54,10 +86,8 @@ class CustomUserCreationForm(UserCreationForm):  # Add this new form
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', ]  # Specify the fields you want to allow editing
+        fields = ['username', 'first_name', 'last_name']
 
     def __init__(self, *args, **kwargs):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
-        # You can customize fields here if necessary
-        self.fields['username'].required = True  # Ensure the username is required
-
+        self.fields['username'].required = True

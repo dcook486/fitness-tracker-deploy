@@ -12,16 +12,22 @@
             <a href="{% url 'add_workout' %}" class="btn btn-success">Add Workout</a>
             <a href="{% url 'exercise_history' %}">Exercise History</a>
             <a href="{% url 'profile' %}">My Profile</a>
+
             <form method="post" action="{% url 'logout' %}" style="display: inline;">
                 {% csrf_token %}
                 <a href="#" onclick="this.closest('form').submit();return false;">Logout</a>
             </form>
+
+            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+             <a href="{% url 'home' %}">Home</a>
+
             <span>Welcome, {{ user.username }}!</span>
         </nav>
     {% else %}
         <nav>
             <a href="{% url 'login' %}">Login</a>
             <a href="{% url 'signup' %}">Sign Up</a>
+            <a href="{% url 'home' %}">Home</a>
         </nav>
     {% endif %}
 

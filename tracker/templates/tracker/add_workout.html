@@ -1,8 +1,21 @@
 <h1>Add Workout</h1>
+
+<h2>Standard Workout</h2>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add Workout</button>
+    {{ standard_form.as_p }}
+    <button type="submit" name="standard_workout">Add Standard Workout</button>
 </form>
 
-<a href="{% url 'add_workout' %}">Back to Workouts</a>
+<hr>
+
+<h2>Add Custom Workout</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ custom_form.as_p }}
+    <button type="submit" name="custom_workout">Add Custom Workout</button>
+</form>
+
+<hr>
+
+<a href="{% url 'workout_list' %}">Back to Workouts</a>

@@ -1,6 +1,7 @@
-# models.py
+
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime, date
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -31,6 +32,8 @@ class Workout(models.Model):
     sets = models.IntegerField(null=True, blank=True)
     reps = models.IntegerField(null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
+    workout_date = models.DateField("Workout Date(mm/dd/year)", auto_now_add=False, auto_now=False, blank=True, null=True)
+    timestamp = models.DateField(auto_now_add=True, auto_now=False, blank=True)
 
     class Meta:
         ordering = ['-date']
