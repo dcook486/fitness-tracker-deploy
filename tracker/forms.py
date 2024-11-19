@@ -43,7 +43,7 @@ class CustomWorkoutForm(forms.ModelForm):
 
     class Meta:
         model = Workout
-        fields = ['category', 'exercise', 'workout_type', 'duration', 'sets', 'reps']
+        fields = ['category', 'exercise', 'workout_type', 'duration', 'sets', 'reps', 'workout_date']
         widgets = {
             'exercise': forms.Select(attrs={'class': 'form-control'}),
             'workout_type': forms.Select(attrs={'class': 'form-control'}),
