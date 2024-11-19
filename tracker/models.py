@@ -24,7 +24,7 @@ class Workout(models.Model):
         ('weight_lifting', 'Weight Lifting'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     workout_type = models.CharField(max_length=20, choices=WORKOUT_TYPES)
     duration = models.IntegerField(null=True, blank=True)
