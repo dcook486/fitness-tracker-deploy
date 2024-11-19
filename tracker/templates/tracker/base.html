@@ -18,7 +18,6 @@
                 <a href="#" onclick="this.closest('form').submit();return false;">Logout</a>
             </form>
 
-            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
              <a href="{% url 'home' %}">Home</a>
 
             <span>Welcome, {{ user.username }}!</span>
