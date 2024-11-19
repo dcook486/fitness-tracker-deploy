@@ -1,0 +1,25 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+<h2>Exercise History</h2>
+
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Exercise</th>
+        <th>Type</th>
+        <th>Sets</th>
+        <th>Reps</th>
+        <th>Duration</th>
+    </tr>
+    {% for workout in workouts %}
+    <tr>
+        <td>{{ workout.date|date:"M d, Y" }}</td>
+        <td>{{ workout.exercise.name }}</td>
+        <td>{{ workout.get_workout_type_display }}</td>
+        <td>{{ workout.sets|default:"-" }}</td>
+        <td>{{ workout.reps|default:"-" }}</td>
+        <td>{{ workout.duration|default:"-" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
