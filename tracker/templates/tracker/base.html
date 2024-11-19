@@ -16,6 +16,12 @@
                 {% csrf_token %}
                 <a href="#" onclick="this.closest('form').submit();return false;">Logout</a>
             </form>
+<<<<<<< HEAD
+=======
+
+             <a href="{% url 'home' %}">Home</a>
+
+>>>>>>> 21af3275034ff98a18b1d9f845426eb536ab877b
             <span>Welcome, {{ user.username }}!</span>
         </nav>
     {% else %}
