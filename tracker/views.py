@@ -23,14 +23,12 @@ def workout_list(request):
 # View to add a new workout
 @login_required
 def add_workout(request):
-    # Number of visits to this view, as counted in the session variable.
-    num_visits = request.session.get('num_visits', 0)
-    request.session['num_visits'] = num_visits + 1
-
     if request.method == 'POST':
         form = CombinedWorkoutForm(request.POST)
         if form.is_valid():
-            form.save()
+            workout = form.save(commit=False)  # Don't save to DB yet
+            workout.user = request.user  # Set the user
+            workout.save()  # Now save to DB
             return redirect('workout_list')
     else:
         form = CombinedWorkoutForm()

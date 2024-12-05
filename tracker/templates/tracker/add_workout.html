@@ -1,3 +1,6 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
 <h1>Add Workout</h1>
 <form method="post">
     {% csrf_token %}
@@ -5,4 +8,5 @@
     <button type="submit">Add Workout</button>
 </form>
 
-<a href="{% url 'add_workout' %}">Back to Workouts</a>
+<a href="{% url 'workout_list' %}">Back to Workouts</a>
+{% endblock %}
