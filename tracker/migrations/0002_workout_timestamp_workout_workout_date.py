@@ -17,9 +17,4 @@ class Migration(migrations.Migration):
             field=models.DateField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
-        migrations.AddField(
-            model_name='workout',
-            name='workout_date',
-            field=models.DateField(blank=True, null=True, verbose_name='Workout Date(mm/dd/year)'),
-        ),
     ]
