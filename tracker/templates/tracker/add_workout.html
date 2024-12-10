@@ -2,10 +2,21 @@
 
 {% block content %}
 <h1>Add Workout</h1>
+
+<!-- Standard Workout Form -->
+<h2>Standard Workout</h2>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Add Workout</button>
+    <button type="submit" name="standard_workout">Add Standard Workout</button>
+</form>
+
+<!-- Custom Workout Form -->
+<h2>Custom Workout</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ custom_form.as_p }}
+    <button type="submit" name="custom_workout">Add Custom Workout</button>
 </form>
 
 <a href="{% url 'workout_list' %}">Back to Workouts</a>

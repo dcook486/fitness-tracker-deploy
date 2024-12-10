@@ -1,11 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Workout, Category
-from .forms import CombinedWorkoutForm, ProfileUpdateForm, CustomUserCreationForm  # Import ProfileUpdateForm
+from .models import Workout, Category, Exercise
+from .forms import CombinedWorkoutForm, CustomWorkoutForm, ProfileUpdateForm, CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-from .models import Exercise
-from django.shortcuts import render
 from django.db.models import Count
 from datetime import datetime, timedelta
 from django.db.models.functions import TruncDate
@@ -14,25 +12,36 @@ from django.db.models.functions import TruncDate
 @login_required
 def workout_list(request):
     """
-     View to display all workouts, ordered by date descending.
-     Requires user to be logged in.
-     """
+    View to display all workouts, ordered by date descending.
+    Requires user to be logged in.
+    """
     workouts = Workout.objects.all().order_by('-date')
     return render(request, 'tracker/workout_list.html', {'workouts': workouts})
 
-# View to add a new workout
+
+# Updated View to handle both standard and custom workouts
 @login_required
 def add_workout(request):
     if request.method == 'POST':
-        form = CombinedWorkoutForm(request.POST)
-        if form.is_valid():
-            workout = form.save(commit=False)  # Don't save to DB yet
-            workout.user = request.user  # Set the user
-            workout.save()  # Now save to DB
-            return redirect('workout_list')
+        if 'standard_workout' in request.POST:
+            form = CombinedWorkoutForm(request.POST)
+            if form.is_valid():
+                workout = form.save(commit=False)
+                workout.user = request.user
+                workout.save()
+                return redirect('workout_list')
+        elif 'custom_workout' in request.POST:
+            custom_form = CustomWorkoutForm(request.POST)
+            if custom_form.is_valid():
+                custom_workout = custom_form.save(commit=False)
+                custom_workout.user = request.user
+                custom_workout.save()
+                return redirect('workout_list')
     else:
         form = CombinedWorkoutForm()
-    return render(request, 'tracker/add_workout.html', {'form': form})
+        custom_form = CustomWorkoutForm()
+    return render(request, 'tracker/add_workout.html', {'form': form, 'custom_form': custom_form})
+
 
 def signup(request):
     if request.method == 'POST':
@@ -44,18 +53,20 @@ def signup(request):
         form = CustomUserCreationForm()
     return render(request, 'tracker/signup.html', {'form': form})
 
+
 # New profile view to update user information
 @login_required
 def profile(request):
     if request.method == 'POST':
-        form = ProfileUpdateForm(request.POST, instance=request.user)  # Use ProfileUpdateForm instead of UserChangeForm
+        form = ProfileUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('profile')  # Redirect back to the profile page after saving
+            return redirect('profile')
     else:
-        form = ProfileUpdateForm(instance=request.user)  # Use ProfileUpdateForm instead of UserChangeForm
+        form = ProfileUpdateForm(instance=request.user)
 
     return render(request, 'tracker/profile.html', {'form': form})
+
 
 def select_exercise(request):
     form = (request.POST or None)
@@ -65,6 +76,7 @@ def select_exercise(request):
             selected_exercise = form.cleaned_data['exercise']
 
     return render(request, 'tracker/workout_list.html', {'form': form})
+
 
 def load_exercises(request):
     category_id = request.GET.get('category_id')
