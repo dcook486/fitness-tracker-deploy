@@ -5,36 +5,26 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 class CombinedWorkoutForm(forms.ModelForm):
-    exercise = forms.ModelChoiceField(queryset=Exercise.objects.none(), required=True, label="Select Exercise")
+    difficulty = forms.ChoiceField(
+        choices=[('easy', 'Easy'), ('medium', 'Medium'), ('hard', 'Hard')],
+        required=True,
+        label="Difficulty Level"
+    )
 
     class Meta:
         model = Workout
-        fields = ['exercise', 'workout_type']  # Only include the required fields
+        fields = ['difficulty', 'workout_type']  # Updated fields list
         widgets = {
-            'exercise': forms.Select(attrs={'class': 'form-control'}),
+            'difficulty': forms.Select(attrs={'class': 'form-control'}),
             'workout_type': forms.Select(attrs={'class': 'form-control'}),
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if 'category' in self.data:
-            try:
-                category_id = int(self.data.get('category'))
-                self.fields['exercise'].queryset = Exercise.objects.filter(category_id=category_id)
-            except (ValueError, TypeError):
-                pass
-        else:
-            self.fields['exercise'].queryset = Exercise.objects.all()
-
 
 class CustomWorkoutForm(forms.ModelForm):
-    exercise = forms.ModelChoiceField(queryset=Exercise.objects.all(), required=True, label="Select Exercise")
-
     class Meta:
         model = Workout
-        fields = ['exercise', 'workout_type', 'duration', 'sets', 'reps']
+        fields = ['workout_type', 'duration', 'sets', 'reps']  # Removed 'exercise' field
         widgets = {
-            'exercise': forms.Select(attrs={'class': 'form-control'}),
             'workout_type': forms.Select(attrs={'class': 'form-control'}),
             'duration': forms.NumberInput(attrs={'class': 'form-control'}),
             'sets': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -70,5 +60,3 @@ class ProfileUpdateForm(forms.ModelForm):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
         # You can customize fields here if necessary
         self.fields['username'].required = True  # Ensure the username is required
-
-

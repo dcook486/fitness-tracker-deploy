@@ -7,7 +7,18 @@
 <h2>Standard Workout</h2>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.non_field_errors }}
+    <div>
+        <label for="id_difficulty">Difficulty Level:</label>
+        <select name="difficulty" id="id_difficulty" class="form-control">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+    </div>
+    <div>
+        {{ form.workout_type.label_tag }} {{ form.workout_type }}
+    </div>
     <button type="submit" name="standard_workout">Add Standard Workout</button>
 </form>
 
@@ -15,9 +26,22 @@
 <h2>Custom Workout</h2>
 <form method="post">
     {% csrf_token %}
-    {{ custom_form.as_p }}
+    {{ custom_form.non_field_errors }}
+    <div>
+        {{ custom_form.workout_type.label_tag }} {{ custom_form.workout_type }}
+    </div>
+    <div>
+        {{ custom_form.duration.label_tag }} {{ custom_form.duration }}
+    </div>
+    <div>
+        {{ custom_form.sets.label_tag }} {{ custom_form.sets }}
+    </div>
+    <div>
+        {{ custom_form.reps.label_tag }} {{ custom_form.reps }}
+    </div>
     <button type="submit" name="custom_workout">Add Custom Workout</button>
 </form>
 
 <a href="{% url 'workout_list' %}">Back to Workouts</a>
 {% endblock %}
+
