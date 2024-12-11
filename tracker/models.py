@@ -25,7 +25,7 @@ class Workout(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, null=True, blank=True)
     workout_type = models.CharField(max_length=20, choices=WORKOUT_TYPES)
     duration = models.IntegerField(null=True, blank=True)
     sets = models.IntegerField(null=True, blank=True)
@@ -36,6 +36,7 @@ class Workout(models.Model):
         ordering = ['-date']
 
     def __str__(self):
+        exercise_name = self.exercise.name if self.exercise else "No Exercise"
         return f"{self.exercise.name} - {self.get_workout_type_display()} on {self.date.strftime('%Y-%m-%d')}"
 
 

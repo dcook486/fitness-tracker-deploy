@@ -25,21 +25,44 @@ def add_workout(request):
     if request.method == 'POST':
         if 'standard_workout' in request.POST:
             form = CombinedWorkoutForm(request.POST)
+            custom_form = CustomWorkoutForm()
             if form.is_valid():
                 workout = form.save(commit=False)
                 workout.user = request.user
+
+                exercise_id = request.POST.get('exercise')
+                if exercise_id:
+                    try:
+                        workout.exercise = Exercise.objects.get(id=exercise_id)
+                    except Exercise.DoesNotExist:
+                        form.add_error('exercise', 'Selected exercise does not exist.')
+                        return render(request, 'tracker/add_workout.html', {'form': form, 'custom_form': custom_form})
                 workout.save()
                 return redirect('workout_list')
         elif 'custom_workout' in request.POST:
             custom_form = CustomWorkoutForm(request.POST)
+            form = CombinedWorkoutForm()
             if custom_form.is_valid():
                 custom_workout = custom_form.save(commit=False)
                 custom_workout.user = request.user
+
+                exercise_id = request.POST.get('exercise')  # Assuming the field is named 'exercise'
+                if exercise_id:
+                    try:
+                        custom_workout.exercise = Exercise.objects.get(id=exercise_id)
+                    except Exercise.DoesNotExist:
+                        custom_form.add_error('exercise', 'Selected exercise does not exist.')
+                        return render(request, 'tracker/add_workout.html', {'form': form, 'custom_form': custom_form})
+
                 custom_workout.save()
                 return redirect('workout_list')
+        else:
+            form = CombinedWorkoutForm()
+            custom_form = CustomWorkoutForm()
     else:
         form = CombinedWorkoutForm()
         custom_form = CustomWorkoutForm()
+
     return render(request, 'tracker/add_workout.html', {'form': form, 'custom_form': custom_form})
 
 

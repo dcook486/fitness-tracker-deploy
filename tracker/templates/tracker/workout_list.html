@@ -28,7 +28,15 @@
 
     <ul>
         {% for workout in workouts %}
-            <li>{{ workout }} - Sets: {{ workout.sets }} Reps: {{ workout.reps }} Duration: {{ workout.duration }} minutes</li>
+            <li>
+                {{ workout.workout_type }} - 
+                {% if workout.exercise %}
+                    Exercise: {{ workout.exercise.name }}
+                {% else %}
+                    Exercise: None
+                {% endif %}
+                - Sets: {{ workout.sets }} Reps: {{ workout.reps }} Duration: {{ workout.duration }} minutes
+            </li>
         {% empty %}
             <li>No workouts yet.</li>
         {% endfor %}
