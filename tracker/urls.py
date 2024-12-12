@@ -28,5 +28,9 @@ urlpatterns = [
     path('ajax/load-exercises/', views.load_exercises, name='load_exercises'),
     path('history/', views.exercise_history, name='exercise_history'),
 
+    path('assign_trainer/', views.assign_trainer, name='assign_trainer'),
+
+    path('trainer_assigned/', views.trainer_assigned, name='trainer_assigned'),
+
  #   path('load-exercises/', views.load_exercises, name='load_exercises'),
 ]

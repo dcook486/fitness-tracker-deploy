@@ -2,6 +2,7 @@ from django import forms
 from .models import Workout, Category, Exercise
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import UserTrainer
 
 
 class CombinedWorkoutForm(forms.ModelForm):
@@ -60,3 +61,10 @@ class ProfileUpdateForm(forms.ModelForm):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
         # You can customize fields here if necessary
         self.fields['username'].required = True  # Ensure the username is required
+
+
+class UserTrainerForm(forms.ModelForm):
+    class Meta:
+        model = UserTrainer
+        user = forms.ModelChoiceField(queryset=User.objects.filter(trainer=None))
+        fields = ['user', 'trainer']

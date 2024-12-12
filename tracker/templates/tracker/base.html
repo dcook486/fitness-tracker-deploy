@@ -15,6 +15,7 @@
             <a href="{% url 'add_workout' %}">Add Workout</a>
             <a href="{% url 'exercise_history' %}">Exercise History</a>
             <a href="{% url 'profile' %}">My Profile</a>
+            <a href="{% url 'assign_trainer' %}">Request a Trainer</a>
             <form method="post" action="{% url 'logout' %}" style="display: inline;">
                 {% csrf_token %}
                 <button type="submit">Logout</button>

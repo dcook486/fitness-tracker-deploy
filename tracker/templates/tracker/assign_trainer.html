@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assign Trainer</title>
+</head>
+<body>
+    <h1>Request a Trainer</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+    </form>
+    <a href="{% url 'trainer_assigned' %}" type="btb btn-primary">Assign Trainer</a>
+</body>
+</html>

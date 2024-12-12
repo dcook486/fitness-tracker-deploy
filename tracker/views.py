@@ -7,6 +7,8 @@ from django.template.loader import render_to_string
 from django.db.models import Count
 from datetime import datetime, timedelta
 from django.db.models.functions import TruncDate
+from .models import UserTrainer, Trainer
+from .forms import UserTrainerForm
 
 
 @login_required
@@ -118,3 +120,19 @@ def exercise_history(request):
     }
 
     return render(request, 'tracker/exercise_history.html', context)
+
+@login_required
+def assign_trainer(request):
+    form = (request.POST or None)
+    if request.method == 'POST':
+        form = (request.POST)
+        if form.is_valid():
+            assign_trainer = form.cleaned_data['trainer']
+
+    return render(request, 'tracker/assign_trainer.html', {'form': form})
+
+def trainer_assigned(request):
+    return render(request, 'tracker/trainer_assigned.html')
+
+
+

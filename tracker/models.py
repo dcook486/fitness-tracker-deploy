@@ -39,4 +39,17 @@ class Workout(models.Model):
         exercise_name = self.exercise.name if self.exercise else "No Exercise"
         return f"{self.exercise.name} - {self.get_workout_type_display()} on {self.date.strftime('%Y-%m-%d')}"
 
+#trainer model
+class Trainer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='trainer')
 
+    def __str__(self):
+        return self.user.username
+
+#user trainer
+class UserTrainer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user.username} is assigned to {self.trainer.user.username}'
