@@ -12,7 +12,7 @@ class ll_ATS(unittest.TestCase):
 
     def test_ll(self):
         user = "admin"
-        pwd = "admin1"
+        pwd = "tested2024"
         driver = self.driver
         driver.maximize_window()
         driver.get("http://127.0.0.1:8000/admin")
