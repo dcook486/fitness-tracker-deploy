@@ -51,3 +51,8 @@ fitness_tracker/static/
 *.dat
 *.out
 *.pid
+
+echo "venv/" >> .gitignore
+echo "__pycache__/" >> .gitignore
+echo "*.pyc" >> .gitignore
+echo "db.sqlite3" >> .gitignore
