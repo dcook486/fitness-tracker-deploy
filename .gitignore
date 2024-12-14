@@ -46,13 +46,12 @@ fitness_tracker/static/
 # Compiled Python files
 *.pyc
 
+# Testing
+tests/chromedriver-win64/
+tests/chromedriver-win64/chromedriver.exe
+
 # Other
 *.csv
 *.dat
 *.out
 *.pid
-
-echo "venv/" >> .gitignore
-echo "__pycache__/" >> .gitignore
-echo "*.pyc" >> .gitignore
-echo "db.sqlite3" >> .gitignore
